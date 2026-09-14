@@ -1,6 +1,6 @@
 # Пансионат «Династия»
 
-Исходный код сайта [dynastia-residence.ru](https://dynastia-residence.ru/).
+Исходный код сайта [dynastia-residence.online](https://dynastia-residence.online/).
 
 ## Размещение
 

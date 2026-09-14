@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://dynastia-residence.ru/sitemap.xml
+Sitemap: https://dynastia-residence.online/sitemap.xml

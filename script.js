@@ -175,6 +175,51 @@
   /* ---------- Form submit ---------- */
   var tourForm = document.getElementById("tourForm");
   if (tourForm) {
+    var leadEndpoint = "https://dynastia-residence.ru/send-lead.php";
+
+    function ensureHiddenInput(name, value) {
+      var input = tourForm.querySelector('input[name="' + name + '"]');
+      if (!input) {
+        input = document.createElement("input");
+        input.type = "hidden";
+        input.name = name;
+        tourForm.appendChild(input);
+      }
+      input.value = value;
+    }
+
+    function submitViaIframe(formData, onDone) {
+      var frameName = "leadSubmitFrame";
+      var iframe = document.getElementById(frameName);
+      if (!iframe) {
+        iframe = document.createElement("iframe");
+        iframe.id = frameName;
+        iframe.name = frameName;
+        iframe.title = "Отправка заявки";
+        iframe.style.display = "none";
+        document.body.appendChild(iframe);
+      }
+
+      formData.forEach(function (value, key) {
+        ensureHiddenInput(key, value);
+      });
+
+      iframe.onload = function () { onDone(); };
+      tourForm.action = leadEndpoint;
+      tourForm.method = "POST";
+      tourForm.target = frameName;
+      tourForm.submit();
+    }
+
+    function showSuccess() {
+      document.getElementById("formFields").style.display = "none";
+      var success = document.getElementById("formSuccess");
+      success.classList.add("is-visible");
+
+      if (window.ym) { /* window.ym(COUNTER_ID, 'reachGoal', 'tour_form_submit'); */ }
+      if (window.gtag) { /* window.gtag('event', 'generate_lead'); */ }
+    }
+
     tourForm.addEventListener("submit", function (e) {
       e.preventDefault();
 
@@ -230,6 +275,15 @@
 
       var controller = "AbortController" in window ? new AbortController() : null;
       var timeoutId = controller ? window.setTimeout(function () { controller.abort(); }, 12000) : null;
+      var onStaticCopy = window.location.hostname !== "dynastia-residence.ru" && window.location.hostname !== "www.dynastia-residence.ru";
+
+      if (onStaticCopy) {
+        submitViaIframe(formData, function () {
+          if (timeoutId) window.clearTimeout(timeoutId);
+          showSuccess();
+        });
+        return;
+      }
 
       fetch("send-lead.php", {
         method: "POST",
@@ -245,12 +299,7 @@
         })
         .then(function () {
           if (timeoutId) window.clearTimeout(timeoutId);
-          document.getElementById("formFields").style.display = "none";
-          var success = document.getElementById("formSuccess");
-          success.classList.add("is-visible");
-
-          if (window.ym) { /* window.ym(COUNTER_ID, 'reachGoal', 'tour_form_submit'); */ }
-          if (window.gtag) { /* window.gtag('event', 'generate_lead'); */ }
+          showSuccess();
         })
         .catch(function () {
           if (timeoutId) window.clearTimeout(timeoutId);
