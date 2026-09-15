@@ -129,7 +129,7 @@ if ($telegram_configured) {
 $email_ok = false;
 if ($NOTIFY_EMAIL !== '') {
     $subject = "=?UTF-8?B?" . base64_encode('Новая заявка с сайта Династия') . "?=";
-    $host = $_SERVER['HTTP_HOST'] ?? 'dynastia-residence.ru';
+    $host = $_SERVER['HTTP_HOST'] ?? 'dynastia-residence.online';
     $headers  = "Content-Type: text/plain; charset=UTF-8\r\n";
     $headers .= "From: Сайт Династия <noreply@{$host}>\r\n";
     $email_ok = @mail($NOTIFY_EMAIL, $subject, $message, $headers);

@@ -175,7 +175,7 @@
   /* ---------- Form submit ---------- */
   var tourForm = document.getElementById("tourForm");
   if (tourForm) {
-    var leadEndpoint = "https://dynastia-residence.ru/send-lead.php";
+    var leadEndpoint = "/send-lead.php";
 
     function ensureHiddenInput(name, value) {
       var input = tourForm.querySelector('input[name="' + name + '"]');
@@ -275,7 +275,7 @@
 
       var controller = "AbortController" in window ? new AbortController() : null;
       var timeoutId = controller ? window.setTimeout(function () { controller.abort(); }, 12000) : null;
-      var onStaticCopy = window.location.hostname !== "dynastia-residence.ru" && window.location.hostname !== "www.dynastia-residence.ru";
+      var onStaticCopy = window.location.hostname !== "dynastia-residence.online" && window.location.hostname !== "www.dynastia-residence.online";
 
       if (onStaticCopy) {
         submitViaIframe(formData, function () {
