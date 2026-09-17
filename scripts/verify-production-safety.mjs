@@ -5,6 +5,7 @@ const root = new URL("..", import.meta.url).pathname;
 const files = {
   sourceScript: readFileSync(join(root, "script.js"), "utf8"),
   distScript: readFileSync(join(root, "dist", "script.js"), "utf8"),
+  entryWorker: readFileSync(join(root, "index.js"), "utf8"),
   worker: readFileSync(join(root, "_worker.js"), "utf8"),
   distWorker: readFileSync(join(root, "dist", "_worker.js"), "utf8"),
   index: readFileSync(join(root, "index.html"), "utf8"),
@@ -37,6 +38,7 @@ for (const [name, content] of Object.entries({
 }
 
 for (const [name, content] of Object.entries({
+  entryWorker: files.entryWorker,
   worker: files.worker,
   distWorker: files.distWorker
 })) {
