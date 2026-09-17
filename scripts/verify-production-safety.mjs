@@ -44,7 +44,7 @@ for (const [name, content] of Object.entries({
 })) {
   expect(name, content.includes("LEAD_HANDLER_URL"), "server-side lead bridge missing");
   expect(name, content.includes("https://dynastia-residence.ru/send-lead.php"), "working handler bridge missing");
-  expect(name, content.includes("env.ASSETS.fetch(request)"), "static asset fallback missing");
+  expect(name, content.includes("env.ASSETS.fetch(request)") || content.includes("staticResponse(pathname)"), "static asset fallback missing");
 }
 
 for (const [name, content] of Object.entries({
