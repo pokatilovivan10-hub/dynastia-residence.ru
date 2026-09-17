@@ -1,6 +1,16 @@
 (function () {
   "use strict";
 
+  var METRIKA_COUNTER_ID = 112655218;
+  var TOUR_FORM_GOAL = "tour_form_submit";
+  var PHONE_CLICK_GOAL = "phone_click";
+
+  function reachGoal(goalName) {
+    if (typeof window.ym === "function") {
+      window.ym(METRIKA_COUNTER_ID, "reachGoal", goalName);
+    }
+  }
+
   var prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ---------- Header background on scroll ---------- */
@@ -172,10 +182,16 @@
     });
   });
 
+  document.querySelectorAll('a[href^="tel:"]').forEach(function (link) {
+    link.addEventListener("click", function () {
+      reachGoal(PHONE_CLICK_GOAL);
+    });
+  });
+
   /* ---------- Form submit ---------- */
   var tourForm = document.getElementById("tourForm");
   if (tourForm) {
-    var leadEndpoint = "https://dynastia-residence.ru/send-lead.php";
+    var leadEndpoint = "/send-lead.php";
 
     function ensureHiddenInput(name, value) {
       var input = tourForm.querySelector('input[name="' + name + '"]');
@@ -216,7 +232,7 @@
       var success = document.getElementById("formSuccess");
       success.classList.add("is-visible");
 
-      if (window.ym) { /* window.ym(COUNTER_ID, 'reachGoal', 'tour_form_submit'); */ }
+      reachGoal(TOUR_FORM_GOAL);
       if (window.gtag) { /* window.gtag('event', 'generate_lead'); */ }
     }
 
